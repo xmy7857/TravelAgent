@@ -1,0 +1,1 @@
+curl -X POST http://localhost:8000/chat -H "Content-Type: application/json" -d '{"user_id":"0001","session_id":"0002","city":"Beijing","days":3,"city_departure":"Nanjing","date_departure":"2026-06-05","user_prompt":"为我规划行程。返回JSON"}'
