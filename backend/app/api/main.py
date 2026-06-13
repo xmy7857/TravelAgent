@@ -16,16 +16,7 @@ from langchain_mcp_adapters.tools import load_mcp_tools
 import re
 from .rag.rag import rag
 # from .routes import trip, poi, map as map_routes
-'''
-任务：
-1、如何正常运行12306-mcp
-2、如何减少plan的推理时间（一个思路是不要让agent调用这么多次工具，调用了以后把结果存储在store里，后面要用就直接读取）
-3、美化plan的界面，搞个动态地图？
-4、搞个小红书rag
-5、其他细化功能，强化亮点
-6、加个机票mcp？
-8、把skill搞成现场读文件的？
-'''
+
 def extract_json_code_block(text: str) -> str:
     """
     从字符串中提取 ```json ... ``` 包裹的内容，并移除所有空白字符（空格、换行、制表符等）
@@ -71,14 +62,12 @@ async def get_mcp_tools(app: FastAPI):
         {
             "12306-mcp":{
                 "transport": "stdio",
-                "command": "/usr/local/nvm/versions/node/v24.15.0/bin/npx",
-                "cwd": "/opt/data/private/llm/",
-                "args": ["-y","12306-mcp"],
-                "env": {"NODE_OPTIONS": "--dns-result-order=ipv4first"}
+                "command": "npx",
+                "args": ["-y","12306-mcp"]
             },
             "amap":{
                 "transport": "stdio",
-                "command": "/opt/data/private/miniconda3/envs/clbot/bin/uvx",
+                "command": "uvx",
                 "args": ["amap-mcp-server"],
                 "env": {"AMAP_MAPS_API_KEY": settings.amap_api_key}
             }
