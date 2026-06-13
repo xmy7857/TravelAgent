@@ -7,7 +7,7 @@ import json
 from langchain_text_splitters import (
     RecursiveCharacterTextSplitter
 )
-
+##建立向量库
 model_dir = snapshot_download(
     "AI-ModelScope/bge-base-zh-v1.5"
 )
