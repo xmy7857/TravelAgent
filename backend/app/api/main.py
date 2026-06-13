@@ -14,6 +14,7 @@ from contextlib import asynccontextmanager
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_mcp_adapters.tools import load_mcp_tools
 import re
+from .rag.rag import rag
 # from .routes import trip, poi, map as map_routes
 '''
 任务：
@@ -92,13 +93,13 @@ async def get_mcp_tools(app: FastAPI):
             weather_tools = [tool for tool in amap_tools if tool.name == "maps_weather"]
             # configs["chat"]["tools"]#+=[tools.transfer_status]
             # configs["chat"]["tools"]+=amap_tools#,tools.get_spotfood,tools.write_spotfood
-            configs["search"]["tools"]+=[tools.get_weather]
+            configs["search"]["tools"]+=[tools.get_weather,rag]
             configs["plan"]["tools"]+=amap_tools#,tools.get_plan,tools.write_plan,tools.get_spotfood,
             configs["plan"]["tools"]+=[tools.get_weather]
             print("plan agent工具数：",len(configs["plan"]["tools"]))
             weather_agent = agents.WeatherAgent(llm,tools=weather_tools+[load_skill])#创建天气智能体
             travel_agent = agents.TravelPlanAgent(llm,tools=train_tools)#创建车票查询智能体
-            route_agent = agents.RouteAgent(llm,tools = amap_tools+[tools.get_weather,load_skill],store_manager=store_manager)#创建主智能体，通过中间件可实现chat、search、plan三个状态的切换。这里要把每个子状态可能用到的工具全部传入，要不然会报错
+            route_agent = agents.RouteAgent(llm,tools = amap_tools+[tools.get_weather,load_skill,rag],store_manager=store_manager)#创建主智能体，通过中间件可实现chat、search、plan三个状态的切换。这里要把每个子状态可能用到的工具全部传入，要不然会报错
             yield#把状态固定在这里，长连接不会退出
             
 
