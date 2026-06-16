@@ -429,12 +429,15 @@ const renderedTravelMode = computed(() => {
 const extractJson = (text: string): string => {
   // 尝试匹配 ```json ... ``` 代码块
   const codeBlockMatch = text.match(/```json\s*([\s\S]*?)\s*```/)
+  console.log("提取json代码块")
   if (codeBlockMatch) {
+    console.log("匹配到json代码块")
     return codeBlockMatch[1].trim()
   }
   // 尝试匹配 ``` ... ``` 代码块（无语言标记）
   const genericBlockMatch = text.match(/```\s*([\s\S]*?)\s*```/)
   if (genericBlockMatch) {
+    console.log("匹配到无语言标记代码块")
     return genericBlockMatch[1].trim()
   }
   return text.trim()
@@ -447,6 +450,7 @@ const extractJson = (text: string): string => {
 const extractJsonByKeyword = (text: string): string | null => {
   // 找到 "travel_plan" 或 "attractions" 关键字，向前找 {，向后匹配平衡 }
   for (const keyword of ['"travel_plan"', '"attractions"', '"foods"']) {
+    console.log("找到关键字")
     const match = text.match(new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*:\\s*\\['))
     if (match && match.index !== undefined) {
       const before = text.substring(0, match.index)
