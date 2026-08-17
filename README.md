@@ -48,6 +48,11 @@
 
 > **💡 推荐环境**：本项目在 `travel_agent` Conda 环境（Python 3.11.15）下开发和测试。建议使用 Conda 创建独立环境以避免依赖冲突。
 
+此外，还需要准备以下 API 密钥：
+1.	LLM 的 API(OpenAI、DeepSeek 等)
+2.	高德地图 Web 服务 Key：访问 https://console.amap.com/ 注册并创建应用
+
+
 ### 1.2 后端部署
 
 #### 1.2.1 创建 Conda 环境并安装依赖
@@ -65,7 +70,7 @@ conda activate travel_agent
 **方式二：使用 venv 创建虚拟环境**
 
 ```bash
-cd Travel_Agent/backend
+cd TravelAgent/backend
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
 # 或 venv\Scripts\activate  # Windows
@@ -120,7 +125,7 @@ HOST=0.0.0.0
 PORT=8000
 CORS_ORIGINS=http://localhost:7007,http://localhost:3000
 
-# 高德地图 API Key（必填，用于天气查询、地图搜索、路线规划）
+# 高德地图 API Key（必填，用于天气查询、地图搜索、路线规划。访问 https://console.amap.com/ 注册并创建应用）
 AMAP_API_KEY=your_amap_api_key_here
 
 # 日志级别
@@ -179,7 +184,7 @@ INFO:     Application startup complete.
 #### 1.3.1 安装依赖
 
 ```bash
-cd Travel_Agent/frontend
+cd TravelAgent/frontend
 npm install
 ```
 
@@ -197,7 +202,7 @@ npm run dev
 在启动后端之前，需要构建用于小众景点检索的向量数据库：
 
 ```bash
-cd Travel_Agent/backend
+cd TravelAgent/backend
 python vector_db_build.py
 ```
 
@@ -758,7 +763,7 @@ RouteAgent 内部维护一个三态状态机，通过 `transfer_status` 工具�
 ## 5. 项目结构
 
 ```
-Travel_Agent/
+TravelAgent/
 ├── README.md                          # 项目文档（本文件）
 ├── backend/                           # 后端服务
 │   ├── .env                           # 环境变量配置
